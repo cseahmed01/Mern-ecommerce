@@ -52,16 +52,16 @@ const AdminDashboard = () => {
   return (
     <div className="min-vh-100 bg-light d-flex flex-column">
       {/* Header */}
-      <nav className="navbar navbar-expand-lg navbar-dark shadow-sm" style={{background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'}}>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div className="container-fluid">
           <button
-            className="btn btn-outline-light me-3 border-0"
+            className="btn btn-outline-dark me-3 border-0"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             style={{borderRadius: '8px'}}
           >
             <i className="fas fa-bars"></i>
           </button>
-          <Link className="navbar-brand fw-bold d-flex align-items-center" to="/admin/dashboard">
+          <Link className="navbar-brand fw-bold d-flex align-items-center text-dark" to="/admin/dashboard">
             <i className="fas fa-tachometer-alt me-2"></i>
             <span className="d-none d-sm-inline">Admin Dashboard</span>
             <span className="d-sm-none">Dashboard</span>
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
           <div className="d-flex ms-auto align-items-center">
             <div className="dropdown">
               <button
-                className="btn btn-outline-light border-0 d-flex align-items-center"
+                className="btn btn-outline-dark border-0 d-flex align-items-center"
                 type="button"
                 id="userDropdown"
                 data-bs-toggle="dropdown"
@@ -165,7 +165,7 @@ const AdminDashboard = () => {
         {/* Main Content */}
         <div className={`flex-grow-1 p-3 p-lg-4`} style={{marginLeft: isSidebarOpen && window.innerWidth >= 992 ? '280px' : '0', marginTop: '0', transition: 'margin-left 0.3s ease'}}>
           {/* Welcome Section */}
-          <div className="card border-0 shadow-sm mb-4" style={{borderRadius: '15px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white'}}>
+          <div className="card border-0 shadow-sm mb-4" style={{borderRadius: '15px', backgroundColor: '#f8f9fa', color: '#495057'}}>
             <div className="card-body p-3 p-lg-4">
               <div className="row align-items-center">
                 <div className="col-lg-8">
@@ -173,7 +173,7 @@ const AdminDashboard = () => {
                     <i className="fas fa-chart-line me-2"></i>
                     Welcome back, {user?.name || 'Admin'}!
                   </h2>
-                  <p className="mb-0 opacity-75 small">Here's what's happening with your store today.</p>
+                  <p className="mb-0 text-muted small">Here's what's happening with your store today.</p>
                 </div>
                 <div className="col-lg-4 text-end">
                   <div className="d-flex align-items-center justify-content-end">
@@ -188,15 +188,15 @@ const AdminDashboard = () => {
           {/* Stats */}
           <div className="row mb-4">
             <div className="col-12 col-sm-6 col-lg-3 mb-3 mb-lg-4">
-              <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white'}}>
+              <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', backgroundColor: '#ffffff', color: '#495057'}}>
                 <div className="card-body p-3">
                   <div className="d-flex align-items-center">
                     <div className="flex-grow-1">
-                      <div className="text-white-50 small mb-1">Categories</div>
+                      <div className="text-muted small mb-1">Categories</div>
                       <div className="h4 mb-0 fw-bold">{stats.categories}</div>
                     </div>
-                    <div className="bg-white bg-opacity-20 rounded-circle p-2 p-lg-3">
-                      <i className="fas fa-tags fa-lg fa-2x text-white"></i>
+                    <div className="bg-light rounded-circle p-2 p-lg-3">
+                      <i className="fas fa-tags fa-lg fa-2x text-primary"></i>
                     </div>
                   </div>
                 </div>
@@ -204,15 +204,15 @@ const AdminDashboard = () => {
             </div>
 
             <div className="col-12 col-sm-6 col-lg-3 mb-3 mb-lg-4">
-              <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: 'white'}}>
+              <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', backgroundColor: '#ffffff', color: '#495057'}}>
                 <div className="card-body p-3">
                   <div className="d-flex align-items-center">
                     <div className="flex-grow-1">
-                      <div className="text-white-50 small mb-1">Products</div>
+                      <div className="text-muted small mb-1">Products</div>
                       <div className="h4 mb-0 fw-bold">{stats.products}</div>
                     </div>
-                    <div className="bg-white bg-opacity-20 rounded-circle p-2 p-lg-3">
-                      <i className="fas fa-box fa-lg fa-2x text-white"></i>
+                    <div className="bg-light rounded-circle p-2 p-lg-3">
+                      <i className="fas fa-box fa-lg fa-2x text-success"></i>
                     </div>
                   </div>
                 </div>
@@ -220,15 +220,15 @@ const AdminDashboard = () => {
             </div>
 
             <div className="col-12 col-sm-6 col-lg-3 mb-3 mb-lg-4">
-              <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', color: 'white'}}>
+              <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', backgroundColor: '#ffffff', color: '#495057'}}>
                 <div className="card-body p-3">
                   <div className="d-flex align-items-center">
                     <div className="flex-grow-1">
-                      <div className="text-white-50 small mb-1">Orders</div>
+                      <div className="text-muted small mb-1">Orders</div>
                       <div className="h4 mb-0 fw-bold">{stats.orders}</div>
                     </div>
-                    <div className="bg-white bg-opacity-20 rounded-circle p-2 p-lg-3">
-                      <i className="fas fa-shopping-cart fa-lg fa-2x text-white"></i>
+                    <div className="bg-light rounded-circle p-2 p-lg-3">
+                      <i className="fas fa-shopping-cart fa-lg fa-2x text-warning"></i>
                     </div>
                   </div>
                 </div>
@@ -236,15 +236,15 @@ const AdminDashboard = () => {
             </div>
 
             <div className="col-12 col-sm-6 col-lg-3 mb-3 mb-lg-4">
-              <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', color: 'white'}}>
+              <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', backgroundColor: '#ffffff', color: '#495057'}}>
                 <div className="card-body p-3">
                   <div className="d-flex align-items-center">
                     <div className="flex-grow-1">
-                      <div className="text-white-50 small mb-1">Revenue</div>
+                      <div className="text-muted small mb-1">Revenue</div>
                       <div className="h4 mb-0 fw-bold">$0.00</div>
                     </div>
-                    <div className="bg-white bg-opacity-20 rounded-circle p-2 p-lg-3">
-                      <i className="fas fa-dollar-sign fa-lg fa-2x text-white"></i>
+                    <div className="bg-light rounded-circle p-2 p-lg-3">
+                      <i className="fas fa-dollar-sign fa-lg fa-2x text-danger"></i>
                     </div>
                   </div>
                 </div>
@@ -263,27 +263,27 @@ const AdminDashboard = () => {
             <div className="card-body p-3 p-lg-4">
               <div className="row g-2 g-lg-3">
                 <div className="col-6 col-lg-3">
-                  <Link to="/admin/categories" className="btn btn-primary w-100 h-100 d-flex flex-column align-items-center p-2 p-lg-4 text-white fw-semibold" style={{borderRadius: '12px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none', transition: 'transform 0.2s', minHeight: '80px'}}>
+                  <Link to="/admin/categories" className="btn btn-primary w-100 h-100 d-flex flex-column align-items-center p-2 p-lg-4 text-white fw-semibold" style={{borderRadius: '12px', backgroundColor: '#007bff', border: 'none', transition: 'transform 0.2s', minHeight: '80px'}}>
                     <i className="fas fa-plus-circle fa-lg fa-2x mb-1 mb-lg-2"></i>
                     <span className="small">Add Category</span>
                   </Link>
                 </div>
                 <div className="col-6 col-lg-3">
-                  <button className="btn btn-secondary w-100 h-100 d-flex flex-column align-items-center p-2 p-lg-4 text-white fw-semibold" disabled style={{borderRadius: '12px', background: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)', border: 'none', minHeight: '80px'}}>
+                  <button className="btn btn-secondary w-100 h-100 d-flex flex-column align-items-center p-2 p-lg-4 text-white fw-semibold" disabled style={{borderRadius: '12px', backgroundColor: '#6c757d', border: 'none', minHeight: '80px'}}>
                     <i className="fas fa-plus fa-lg fa-2x mb-1 mb-lg-2"></i>
                     <span className="small">Add Product</span>
                     <small className="text-white-50 mt-1 d-none d-lg-block">Coming Soon</small>
                   </button>
                 </div>
                 <div className="col-6 col-lg-3">
-                  <button className="btn btn-info w-100 h-100 d-flex flex-column align-items-center p-2 p-lg-4 text-white fw-semibold" disabled style={{borderRadius: '12px', background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)', border: 'none', minHeight: '80px'}}>
+                  <button className="btn btn-info w-100 h-100 d-flex flex-column align-items-center p-2 p-lg-4 text-white fw-semibold" disabled style={{borderRadius: '12px', backgroundColor: '#17a2b8', border: 'none', minHeight: '80px'}}>
                     <i className="fas fa-eye fa-lg fa-2x mb-1 mb-lg-2"></i>
                     <span className="small">View Reports</span>
                     <small className="text-white-50 mt-1 d-none d-lg-block">Coming Soon</small>
                   </button>
                 </div>
                 <div className="col-6 col-lg-3">
-                  <button className="btn btn-success w-100 h-100 d-flex flex-column align-items-center p-2 p-lg-4 text-white fw-semibold" disabled style={{borderRadius: '12px', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', border: 'none', minHeight: '80px'}}>
+                  <button className="btn btn-success w-100 h-100 d-flex flex-column align-items-center p-2 p-lg-4 text-white fw-semibold" disabled style={{borderRadius: '12px', backgroundColor: '#28a745', border: 'none', minHeight: '80px'}}>
                     <i className="fas fa-cog fa-lg fa-2x mb-1 mb-lg-2"></i>
                     <span className="small">Settings</span>
                     <small className="text-white-50 mt-1 d-none d-lg-block">Coming Soon</small>
