@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import API_BASE_URL from '../api/config'
 
 const CategoryManagement = () => {
   const [categories, setCategories] = useState([])
@@ -21,7 +22,7 @@ const CategoryManagement = () => {
   const fetchCategories = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await axios.get('http://localhost:5000/api/categories', {
+      const response = await axios.get(`${API_BASE_URL}/categories`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       setCategories(response.data.categories)
@@ -39,9 +40,9 @@ const CategoryManagement = () => {
       }
 
       if (editingCategory) {
-        await axios.put(`http://localhost:5000/api/categories/${editingCategory._id}`, formData, config)
+        await axios.put(`${API_BASE_URL}/categories/${editingCategory._id}`, formData, config)
       } else {
-        await axios.post('http://localhost:5000/api/categories', formData, config)
+        await axios.post(`${API_BASE_URL}/categories`, formData, config)
       }
 
       setShowModal(false)
@@ -68,7 +69,7 @@ const CategoryManagement = () => {
     if (window.confirm('Are you sure you want to delete this category?')) {
       try {
         const token = localStorage.getItem('token')
-        await axios.delete(`http://localhost:5000/api/categories/${id}`, {
+        await axios.delete(`${API_BASE_URL}/categories/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         fetchCategories()
@@ -85,11 +86,11 @@ const CategoryManagement = () => {
   }
 
   return (
-    <div className="container mt-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Category Management</h2>
+    <div className="container-fluid">
+      <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4">
+        <h2 className="mb-3 mb-sm-0">Category Management</h2>
         <button className="btn btn-primary" onClick={openCreateModal}>
-          Add Category
+          <i className="fas fa-plus me-2"></i>Add Category
         </button>
       </div>
 
@@ -114,12 +115,14 @@ const CategoryManagement = () => {
                   </span>
                 </td>
                 <td>
-                  <button className="btn btn-sm btn-warning me-2" onClick={() => handleEdit(category)}>
-                    Edit
-                  </button>
-                  <button className="btn btn-sm btn-danger" onClick={() => handleDelete(category._id)}>
-                    Delete
-                  </button>
+                  <div className="d-flex flex-column flex-sm-row gap-1">
+                    <button className="btn btn-sm btn-warning" onClick={() => handleEdit(category)}>
+                      Edit
+                    </button>
+                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(category._id)}>
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -130,7 +133,7 @@ const CategoryManagement = () => {
       {/* Modal */}
       {showModal && (
         <div className="modal show d-block" tabIndex="-1">
-          <div className="modal-dialog">
+          <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
@@ -156,6 +159,7 @@ const CategoryManagement = () => {
                     <textarea
                       className="form-control"
                       id="description"
+                      rows="3"
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     />

@@ -26,6 +26,7 @@ app.get('/api/health', (req, res) => {
 // mount routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
+app.use('/api/products', require('./routes/productRoutes'));
 
 // error handler (last)
 app.use(errorHandler);
