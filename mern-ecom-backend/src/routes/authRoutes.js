@@ -29,6 +29,28 @@ router.post('/register-admin', asyncHandler(async (req, res) => {
   });
 }));
 
+// Register customer
+router.post('/register', asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Check if user already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ message: 'User already exists with this email.' });
+  }
+
+  const user = new User({ name, email, password, role: 'customer' });
+  await user.save();
+
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+
+  res.status(201).json({
+    message: 'Customer registered successfully.',
+    token,
+    user: { id: user._id, name: user.name, email: user.email, role: user.role }
+  });
+}));
+
 // Login
 router.post('/login', asyncHandler(async (req, res) => {
   const { email, password } = req.body;
