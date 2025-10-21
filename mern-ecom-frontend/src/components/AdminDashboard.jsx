@@ -7,9 +7,11 @@ import API_BASE_URL from '../api/config'
 const AdminDashboard = () => {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
     categories: 0,
     products: 0,
+    banners: 0,
     orders: 0
   })
 
@@ -31,6 +33,7 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     try {
+      setLoading(true)
       const token = localStorage.getItem('token')
       const config = { headers: { Authorization: `Bearer ${token}` } }
 
@@ -42,14 +45,29 @@ const AdminDashboard = () => {
       const productsResponse = await axios.get(`${API_BASE_URL}/products`, config)
       setStats(prev => ({ ...prev, products: productsResponse.data.products.length }))
 
+      // Fetch banners count
+      const bannersResponse = await axios.get(`${API_BASE_URL}/banners`, config)
+      setStats(prev => ({ ...prev, banners: bannersResponse.data.banners.length }))
+
       // Note: Orders stats would be implemented when orders endpoint is available
     } catch (error) {
       console.error('Error fetching stats:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className="container-fluid">
+      {loading && (
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-2">Loading dashboard...</p>
+        </div>
+      )}
+
       {/* Welcome Section */}
       <div className="card border-0 shadow-sm mb-4" style={{borderRadius: '15px', backgroundColor: '#f8f9fa', color: '#495057'}}>
         <div className="card-body p-3 p-lg-4">
@@ -99,6 +117,22 @@ const AdminDashboard = () => {
                 </div>
                 <div className="bg-light rounded-circle p-2 p-lg-3">
                   <i className="fas fa-box fa-lg fa-2x text-success"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12 col-sm-6 col-lg-3 mb-3 mb-lg-4">
+          <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', backgroundColor: '#ffffff', color: '#495057'}}>
+            <div className="card-body p-3">
+              <div className="d-flex align-items-center">
+                <div className="flex-grow-1">
+                  <div className="text-muted small mb-1">Banners</div>
+                  <div className="h4 mb-0 fw-bold">{stats.banners}</div>
+                </div>
+                <div className="bg-light rounded-circle p-2 p-lg-3">
+                  <i className="fas fa-images fa-lg fa-2x text-info"></i>
                 </div>
               </div>
             </div>
@@ -159,7 +193,13 @@ const AdminDashboard = () => {
               </Link>
             </div>
             <div className="col-6 col-lg-3">
-              <button className="btn btn-info w-100 h-100 d-flex flex-column justify-content-center align-items-center p-2 p-lg-4 text-white fw-semibold" disabled style={{borderRadius: '12px', backgroundColor: '#17a2b8', border: 'none', minHeight: '80px'}}>
+              <Link to="/admin/banners" className="btn btn-info w-100 h-100 d-flex flex-column justify-content-center align-items-center p-2 p-lg-4 text-white fw-semibold" style={{borderRadius: '12px', backgroundColor: '#0dcaf0', border: 'none', minHeight: '80px'}}>
+                <i className="fas fa-images fa-lg fa-2x mb-1 mb-lg-2"></i>
+                <span className="small">Add Banner</span>
+              </Link>
+            </div>
+            <div className="col-6 col-lg-3">
+              <button className="btn btn-warning w-100 h-100 d-flex flex-column justify-content-center align-items-center p-2 p-lg-4 text-white fw-semibold" disabled style={{borderRadius: '12px', backgroundColor: '#ffc107', border: 'none', minHeight: '80px'}}>
                 <i className="fas fa-eye fa-lg fa-2x mb-1 mb-lg-2"></i>
                 <span className="small">View Reports</span>
                 <small className="text-white-50 mt-1 d-none d-lg-block">Coming Soon</small>

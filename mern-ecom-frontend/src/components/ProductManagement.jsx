@@ -7,6 +7,7 @@ import API_BASE_URL from '../api/config'
 const ProductManagement = () => {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
   const [formData, setFormData] = useState({
@@ -36,6 +37,7 @@ const ProductManagement = () => {
 
   const fetchProducts = async () => {
     try {
+      setLoading(true)
       const token = localStorage.getItem('token')
       const response = await axios.get(`${API_BASE_URL}/products`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -43,6 +45,8 @@ const ProductManagement = () => {
       setProducts(response.data.products || [])
     } catch (error) {
       console.error('Error fetching products:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -152,22 +156,30 @@ const ProductManagement = () => {
         </button>
       </div>
 
-      <div className="table-responsive">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th>Status</th>
-              <th>Created</th>
-              <th>Updated</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
+      {loading ? (
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-2">Loading products...</p>
+        </div>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
               <tr key={product._id}>
                 <td>{product.name}</td>
                 <td>{product.categoryId?.name || 'N/A'}</td>
@@ -189,10 +201,11 @@ const ProductManagement = () => {
                   </button>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Modal */}
       {showModal && (

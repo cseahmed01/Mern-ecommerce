@@ -5,6 +5,7 @@ import API_BASE_URL from '../api/config'
 
 const CategoryManagement = () => {
   const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editingCategory, setEditingCategory] = useState(null)
   const [formData, setFormData] = useState({ name: '', description: '', image: '', status: true })
@@ -21,6 +22,7 @@ const CategoryManagement = () => {
 
   const fetchCategories = async () => {
     try {
+      setLoading(true)
       const token = localStorage.getItem('token')
       const response = await axios.get(`${API_BASE_URL}/categories`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -28,6 +30,8 @@ const CategoryManagement = () => {
       setCategories(response.data.categories)
     } catch (error) {
       console.error('Error fetching categories:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -94,18 +98,26 @@ const CategoryManagement = () => {
         </button>
       </div>
 
-      <div className="table-responsive">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categories.map((category) => (
+      {loading ? (
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-2">Loading categories...</p>
+        </div>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {categories.map((category) => (
               <tr key={category._id}>
                 <td>{category.name}</td>
                 <td>{category.description}</td>
@@ -125,10 +137,11 @@ const CategoryManagement = () => {
                   </div>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Modal */}
       {showModal && (

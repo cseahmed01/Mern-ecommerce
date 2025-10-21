@@ -4,6 +4,7 @@ import AdminDashboard from './components/AdminDashboard'
 import AdminLayout from './components/AdminLayout'
 import CategoryManagement from './components/CategoryManagement'
 import ProductManagement from './components/ProductManagement'
+import BannerManagement from './components/BannerManagement'
 import OrdersManagement from './components/OrdersManagement'
 import UsersManagement from './components/UsersManagement'
 import Settings from './components/Settings'
@@ -18,6 +19,7 @@ function App() {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="categories" element={<CategoryManagement />} />
           <Route path="products" element={<ProductManagement />} />
+          <Route path="banners" element={<BannerManagement />} />
           <Route path="orders" element={<OrdersManagement />} />
           <Route path="users" element={<UsersManagement />} />
           <Route path="settings" element={<Settings />} />

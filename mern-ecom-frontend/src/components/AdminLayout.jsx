@@ -49,6 +49,11 @@ const AdminLayout = () => {
               </Link>
             </li>
             <li className="nav-item mb-2">
+              <Link to="/admin/banners" className="nav-link text-white">
+                <i className="fas fa-images me-2"></i> Banners
+              </Link>
+            </li>
+            <li className="nav-item mb-2">
               <Link to="/admin/orders" className="nav-link text-white">
                 <i className="fas fa-shopping-cart me-2"></i> Orders
               </Link>
