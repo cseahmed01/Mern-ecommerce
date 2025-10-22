@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import ProductList from '../components/ProductList';
 import API_BASE_URL from '../api/config';
 
+import { Carousel } from 'bootstrap';
+
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -14,6 +16,18 @@ const Home = () => {
     fetchHomeData();
   }, []);
 
+  useEffect(() => {
+    // Initialize carousel after component mounts
+    const carouselElement = document.getElementById('heroCarousel');
+    if (carouselElement) {
+      const carousel = new Carousel(carouselElement, {
+        interval: 3000,
+        wrap: true,
+        ride: 'carousel'
+      });
+    }
+  }, [banners]);
+
   const fetchHomeData = async () => {
     setLoading(true);
     try {
@@ -23,9 +37,10 @@ const Home = () => {
         axios.get(`${API_BASE_URL}/banners`)
       ]);
 
-      setFeaturedProducts(productsRes.data.products);
-      setCategories(categoriesRes.data.categories);
-      setBanners(bannersRes.data.banners);
+      setFeaturedProducts(productsRes.data.products || []);
+      setCategories(categoriesRes.data.categories || []);
+      setBanners(bannersRes.data.banners || []);
+      console.log('Banners fetched:', bannersRes.data.banners);
     } catch (error) {
       console.error('Error fetching home data:', error);
     } finally {
@@ -46,38 +61,65 @@ const Home = () => {
   return (
     <div>
       {/* Hero Banner */}
-      {banners.length > 0 && (
-        <div id="heroCarousel" className="carousel slide mb-5" data-bs-ride="carousel">
-          <div className="carousel-inner">
-            {banners.map((banner, index) => (
-              <div key={banner._id} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
-                <img
-                  src={banner.image}
-                  className="d-block w-100"
-                  alt={banner.title}
-                  style={{ height: '400px', objectFit: 'cover' }}
-                />
-                <div className="carousel-caption d-none d-md-block">
-                  <h5>{banner.title}</h5>
-                  <p>{banner.description}</p>
+      {(() => {
+        const activeBanners = banners.filter(banner => banner.isActive);
+        console.log('Active banners for display:', activeBanners.length, activeBanners);
+        return activeBanners.length > 0 && (
+          <div id="heroCarousel" className="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="3000" data-bs-wrap="true">
+            <div className="carousel-indicators">
+              {activeBanners.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  data-bs-target="#heroCarousel"
+                  data-bs-slide-to={index}
+                  className={index === 0 ? 'active' : ''}
+                  aria-current={index === 0 ? 'true' : 'false'}
+                  aria-label={`Slide ${index + 1}`}
+                ></button>
+              ))}
+            </div>
+            <div className="carousel-inner">
+              {activeBanners.map((banner, index) => (
+                <div key={banner._id} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+                  <img
+                    src={`http://localhost:5001${banner.image}`}
+                    className="d-block w-100"
+                    alt={banner.title}
+                    style={{ height: '400px', objectFit: 'cover' }}
+                    crossOrigin="anonymous"
+                    onError={(e) => {
+                      console.error('Banner image failed to load:', banner.image, 'Full URL:', `http://localhost:5001${banner.image}`);
+                      e.target.style.display = 'none';
+                    }}
+                    onLoad={() => console.log('Banner loaded successfully:', banner.image)}
+                  />
+                  <div className="carousel-caption d-none d-md-block">
+                    <h5>{banner.title}</h5>
+                    {banner.link && (
+                      <a href={banner.link} className="btn btn-primary btn-sm">
+                        Learn More
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            {activeBanners.length > 1 && (
+              <>
+                <button className="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                  <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span className="visually-hidden">Previous</span>
+                </button>
+                <button className="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                  <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span className="visually-hidden">Next</span>
+                </button>
+              </>
+            )}
           </div>
-          {banners.length > 1 && (
-            <>
-              <button className="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button className="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Next</span>
-              </button>
-            </>
-          )}
-        </div>
-      )}
+        );
+      })()}
 
       {/* Categories Section */}
       <section className="mb-5">

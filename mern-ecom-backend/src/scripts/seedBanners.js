@@ -11,31 +11,31 @@ const seedBanners = async () => {
     const banners = [
       {
         title: 'Welcome to Our Store',
-        image: 'https://example.com/banner1.jpg',
+        image: '/uploads/banners/banner1.jpg',
         link: '/categories',
         isActive: true
       },
       {
         title: 'New Arrivals - 50% Off',
-        image: 'https://example.com/banner2.jpg',
+        image: '/uploads/banners/banner2.jpg',
         link: '/products',
         isActive: true
       },
       {
         title: 'Free Shipping on Orders Over $50',
-        image: 'https://example.com/banner3.jpg',
+        image: '/uploads/banners/banner3.jpg',
         link: '/categories',
         isActive: true
       },
       {
         title: 'Limited Time Offer',
-        image: 'https://example.com/banner4.jpg',
+        image: '/uploads/banners/banner4.jpg',
         link: '/products',
         isActive: true
       },
       {
         title: 'Shop Electronics',
-        image: 'https://example.com/banner5.jpg',
+        image: '/uploads/banners/banner5.jpg',
         link: '/categories/electronics',
         isActive: true
       }
