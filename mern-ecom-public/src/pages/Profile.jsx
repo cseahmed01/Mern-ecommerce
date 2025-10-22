@@ -409,10 +409,15 @@ const Profile = () => {
                   <div key={product._id} className="col-lg-3 col-md-4 col-sm-6 mb-3">
                     <div className="card h-100">
                       <img
-                        src={product.images?.[0] || '/placeholder-image.jpg'}
+                        src={product.images?.[0] ? `http://localhost:5001${product.images[0]}` : '/placeholder-image.jpg'}
                         className="card-img-top"
                         alt={product.name}
                         style={{ height: '150px', objectFit: 'cover' }}
+                        crossOrigin="anonymous"
+                        onError={(e) => {
+                          console.error('Wishlist product image failed to load:', product.images?.[0]);
+                          e.target.src = '/placeholder-image.jpg';
+                        }}
                       />
                       <div className="card-body d-flex flex-column">
                         <h6 className="card-title">{product.name}</h6>

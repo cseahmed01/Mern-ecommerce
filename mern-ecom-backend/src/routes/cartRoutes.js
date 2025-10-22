@@ -23,7 +23,7 @@ router.get('/', authenticate, asyncHandler(async (req, res) => {
   const formattedItems = cart.items.map(item => ({
     productId: item.productId._id,
     name: item.productId.name,
-    image: item.productId.images?.[0],
+    image: item.productId.images?.[0] ? `/uploads/products/${item.productId.images[0]}` : null,
     price: item.productId.discountPrice || item.productId.price,
     quantity: item.quantity
   }));
@@ -78,7 +78,7 @@ router.post('/', authenticate, asyncHandler(async (req, res) => {
   const formattedItems = cart.items.map(item => ({
     productId: item.productId._id,
     name: item.productId.name,
-    image: item.productId.images?.[0],
+    image: item.productId.images?.[0] ? `/uploads/products/${item.productId.images[0]}` : null,
     price: item.price,
     quantity: item.quantity
   }));
@@ -130,7 +130,7 @@ router.put('/', authenticate, asyncHandler(async (req, res) => {
   const formattedItems = cart.items.map(item => ({
     productId: item.productId._id,
     name: item.productId.name,
-    image: item.productId.images?.[0],
+    image: item.productId.images?.[0] ? `/uploads/products/${item.productId.images[0]}` : null,
     price: item.price,
     quantity: item.quantity
   }));
@@ -167,7 +167,7 @@ router.delete('/:productId', authenticate, asyncHandler(async (req, res) => {
   const formattedItems = cart.items.map(item => ({
     productId: item.productId._id,
     name: item.productId.name,
-    image: item.productId.images?.[0],
+    image: item.productId.images?.[0] ? `/uploads/products/${item.productId.images[0]}` : null,
     price: item.price,
     quantity: item.quantity
   }));

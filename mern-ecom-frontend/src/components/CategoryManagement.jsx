@@ -8,7 +8,8 @@ const CategoryManagement = () => {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [editingCategory, setEditingCategory] = useState(null)
-  const [formData, setFormData] = useState({ name: '', description: '', image: '', status: true })
+  const [formData, setFormData] = useState({ name: '', description: '', image: null, status: true })
+  const [imagePreview, setImagePreview] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -40,18 +41,30 @@ const CategoryManagement = () => {
     try {
       const token = localStorage.getItem('token')
       const config = {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+
+      const submitData = new FormData()
+      submitData.append('name', formData.name)
+      submitData.append('description', formData.description)
+      submitData.append('status', formData.status)
+      if (formData.image) {
+        submitData.append('image', formData.image)
       }
 
       if (editingCategory) {
-        await axios.put(`${API_BASE_URL}/categories/${editingCategory._id}`, formData, config)
+        await axios.put(`${API_BASE_URL}/categories/${editingCategory._id}`, submitData, config)
       } else {
-        await axios.post(`${API_BASE_URL}/categories`, formData, config)
+        await axios.post(`${API_BASE_URL}/categories`, submitData, config)
       }
 
       setShowModal(false)
       setEditingCategory(null)
-      setFormData({ name: '', description: '', image: '', status: true })
+      setFormData({ name: '', description: '', image: null, status: true })
+      setImagePreview('')
       fetchCategories()
     } catch (error) {
       console.error('Error saving category:', error)
@@ -63,9 +76,10 @@ const CategoryManagement = () => {
     setFormData({
       name: category.name,
       description: category.description || '',
-      image: category.image || '',
+      image: null,
       status: category.status
     })
+    setImagePreview(category.image || '')
     setShowModal(true)
   }
 
@@ -85,7 +99,8 @@ const CategoryManagement = () => {
 
   const openCreateModal = () => {
     setEditingCategory(null)
-    setFormData({ name: '', description: '', image: '', status: true })
+    setFormData({ name: '', description: '', image: null, status: true })
+    setImagePreview('')
     setShowModal(true)
   }
 
@@ -110,6 +125,7 @@ const CategoryManagement = () => {
           <table className="table table-striped">
             <thead>
               <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Status</th>
@@ -119,6 +135,20 @@ const CategoryManagement = () => {
             <tbody>
               {categories.map((category) => (
               <tr key={category._id}>
+                <td>
+                  {category.image && (
+                    <img
+                      src={`http://localhost:5001${category.image}`}
+                      alt={category.name}
+                      style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                      crossOrigin="anonymous"
+                      onError={(e) => {
+                        console.error('Category image failed to load:', category.image);
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  )}
+                </td>
                 <td>{category.name}</td>
                 <td>{category.description}</td>
                 <td>
@@ -178,14 +208,29 @@ const CategoryManagement = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="image" className="form-label">Image URL</label>
+                    <label htmlFor="image" className="form-label">Image</label>
                     <input
-                      type="url"
+                      type="file"
                       className="form-control"
                       id="image"
-                      value={formData.image}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files[0]
+                        setFormData({ ...formData, image: file })
+                        if (file) {
+                          const reader = new FileReader()
+                          reader.onload = (e) => setImagePreview(e.target.result)
+                          reader.readAsDataURL(file)
+                        } else {
+                          setImagePreview('')
+                        }
+                      }}
                     />
+                    {imagePreview && (
+                      <div className="mt-2">
+                        <img src={imagePreview.startsWith('http') ? imagePreview : imagePreview} alt="Preview" style={{ maxWidth: '200px', maxHeight: '200px' }} />
+                      </div>
+                    )}
                   </div>
                   <div className="mb-3 form-check">
                     <input

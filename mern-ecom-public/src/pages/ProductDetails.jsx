@@ -78,10 +78,15 @@ const ProductDetails = () => {
           <div className="row">
             <div className="col-12 mb-3">
               <img
-                src={product.images?.[selectedImage] || '/placeholder-image.jpg'}
+                src={product.images?.[selectedImage] ? `http://localhost:5001${product.images[selectedImage]}` : '/placeholder-image.jpg'}
                 alt={product.name}
                 className="img-fluid rounded"
                 style={{ width: '100%', height: '400px', objectFit: 'cover' }}
+                crossOrigin="anonymous"
+                onError={(e) => {
+                  console.error('Product image failed to load:', product.images?.[selectedImage]);
+                  e.target.src = '/placeholder-image.jpg';
+                }}
               />
             </div>
             {product.images && product.images.length > 1 && (
@@ -90,7 +95,7 @@ const ProductDetails = () => {
                   {product.images.map((image, index) => (
                     <img
                       key={index}
-                      src={image}
+                      src={`http://localhost:5001${image}`}
                       alt={`${product.name} ${index + 1}`}
                       className={`rounded cursor-pointer ${selectedImage === index ? 'border border-primary' : ''}`}
                       style={{
@@ -100,6 +105,11 @@ const ProductDetails = () => {
                         flexShrink: 0
                       }}
                       onClick={() => setSelectedImage(index)}
+                      crossOrigin="anonymous"
+                      onError={(e) => {
+                        console.error('Product thumbnail failed to load:', image);
+                        e.target.style.display = 'none';
+                      }}
                     />
                   ))}
                 </div>

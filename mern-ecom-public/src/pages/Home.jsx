@@ -132,10 +132,15 @@ const Home = () => {
                   <div className="card text-center hover-shadow">
                     {category.image && (
                       <img
-                        src={category.image}
+                        src={`http://localhost:5001${category.image}`}
                         className="card-img-top"
                         alt={category.name}
-                        style={{ height: '120px', objectFit: 'cover' }}
+                        style={{ objectFit: 'cover' }}
+                        crossOrigin="anonymous"
+                        onError={(e) => {
+                          console.error('Category image failed to load:', category.image);
+                          e.target.style.display = 'none';
+                        }}
                       />
                     )}
                     <div className="card-body">

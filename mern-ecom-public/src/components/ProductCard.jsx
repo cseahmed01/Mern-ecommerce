@@ -16,10 +16,15 @@ const ProductCard = ({ product }) => {
           <div className="card-img-container" style={{ height: '200px', overflow: 'hidden' }}>
             {product.images && product.images.length > 0 ? (
               <img
-                src={product.images[0]}
+                src={`http://localhost:5001${product.images[0]}`}
                 className="card-img-top img-fluid"
                 alt={product.name}
                 style={{ height: '100%', objectFit: 'cover' }}
+                crossOrigin="anonymous"
+                onError={(e) => {
+                  console.error('Product card image failed to load:', product.images[0]);
+                  e.target.style.display = 'none';
+                }}
               />
             ) : (
               <div className="bg-light d-flex align-items-center justify-content-center" style={{ height: '100%' }}>

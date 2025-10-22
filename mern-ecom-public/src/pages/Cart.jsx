@@ -78,10 +78,15 @@ const Cart = () => {
                   <div className="row align-items-center">
                     <div className="col-md-2">
                       <img
-                        src={item.image || '/placeholder-image.jpg'}
+                        src={item.image ? `http://localhost:5001${item.image}` : '/placeholder-image.jpg'}
                         alt={item.name}
                         className="img-fluid rounded"
                         style={{ maxHeight: '80px', objectFit: 'cover' }}
+                        crossOrigin="anonymous"
+                        onError={(e) => {
+                          console.error('Cart item image failed to load:', item.image);
+                          e.target.src = '/placeholder-image.jpg';
+                        }}
                       />
                     </div>
                     <div className="col-md-4">

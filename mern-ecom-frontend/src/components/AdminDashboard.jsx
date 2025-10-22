@@ -49,7 +49,9 @@ const AdminDashboard = () => {
       const bannersResponse = await axios.get(`${API_BASE_URL}/banners`, config)
       setStats(prev => ({ ...prev, banners: bannersResponse.data.banners.length }))
 
-      // Note: Orders stats would be implemented when orders endpoint is available
+      // Fetch orders count
+      const ordersResponse = await axios.get(`${API_BASE_URL}/orders/admin/all`, config)
+      setStats(prev => ({ ...prev, orders: ordersResponse.data.total }))
     } catch (error) {
       console.error('Error fetching stats:', error)
     } finally {

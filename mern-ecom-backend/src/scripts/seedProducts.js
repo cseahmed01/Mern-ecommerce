@@ -26,7 +26,7 @@ const seedProducts = async () => {
         price: 999,
         discountPrice: 949,
         stock: 50,
-        images: ['https://example.com/iphone15.jpg'],
+        images: ['iphone15.jpg'],
         tags: ['smartphone', 'apple', 'premium'],
         isFeatured: true,
         status: true
@@ -40,7 +40,7 @@ const seedProducts = async () => {
         price: 799,
         discountPrice: 749,
         stock: 75,
-        images: ['https://example.com/galaxy-s24.jpg'],
+        images: ['galaxy-s24.jpg'],
         tags: ['smartphone', 'samsung', 'android'],
         isFeatured: true,
         status: true
@@ -54,7 +54,7 @@ const seedProducts = async () => {
         price: 1099,
         discountPrice: 1049,
         stock: 30,
-        images: ['https://example.com/macbook-air.jpg'],
+        images: ['macbook-air.jpg'],
         tags: ['laptop', 'apple', 'm3'],
         isFeatured: true,
         status: true
@@ -68,7 +68,7 @@ const seedProducts = async () => {
         price: 129,
         discountPrice: 99,
         stock: 100,
-        images: ['https://example.com/nike-air-max.jpg'],
+        images: ['nike-air-max.jpg'],
         tags: ['shoes', 'running', 'nike'],
         isFeatured: false,
         status: true
@@ -82,7 +82,7 @@ const seedProducts = async () => {
         price: 79,
         discountPrice: 69,
         stock: 200,
-        images: ['https://example.com/levis-501.jpg'],
+        images: ['levis-501.jpg'],
         tags: ['jeans', 'denim', 'classic'],
         isFeatured: false,
         status: true
@@ -96,7 +96,7 @@ const seedProducts = async () => {
         price: 15,
         discountPrice: 12,
         stock: 150,
-        images: ['https://example.com/great-gatsby.jpg'],
+        images: ['great-gatsby.jpg'],
         tags: ['book', 'classic', 'fiction'],
         isFeatured: false,
         status: true
@@ -110,7 +110,7 @@ const seedProducts = async () => {
         price: 29,
         discountPrice: 24,
         stock: 80,
-        images: ['https://example.com/garden-hose.jpg'],
+        images: ['garden-hose.jpg'],
         tags: ['garden', 'hose', 'outdoor'],
         isFeatured: false,
         status: true
@@ -124,7 +124,7 @@ const seedProducts = async () => {
         price: 199,
         discountPrice: 179,
         stock: 60,
-        images: ['https://example.com/sony-headphones.jpg'],
+        images: ['sony-headphones.jpg'],
         tags: ['headphones', 'bluetooth', 'noise-cancelling'],
         isFeatured: true,
         status: true
@@ -138,7 +138,7 @@ const seedProducts = async () => {
         price: 89,
         discountPrice: 79,
         stock: 120,
-        images: ['https://example.com/yoga-mat.jpg'],
+        images: ['yoga-mat.jpg'],
         tags: ['yoga', 'exercise', 'fitness'],
         isFeatured: false,
         status: true
@@ -152,7 +152,7 @@ const seedProducts = async () => {
         price: 49,
         discountPrice: 39,
         stock: 90,
-        images: ['https://example.com/coffee-maker.jpg'],
+        images: ['coffee-maker.jpg'],
         tags: ['coffee', 'kitchen', 'appliance'],
         isFeatured: false,
         status: true
