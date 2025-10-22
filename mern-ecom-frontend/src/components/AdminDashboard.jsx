@@ -12,6 +12,7 @@ const AdminDashboard = () => {
     categories: 0,
     products: 0,
     banners: 0,
+    users: 0,
     orders: 0
   })
 
@@ -52,6 +53,10 @@ const AdminDashboard = () => {
       // Fetch orders count
       const ordersResponse = await axios.get(`${API_BASE_URL}/orders/admin/all`, config)
       setStats(prev => ({ ...prev, orders: ordersResponse.data.total }))
+
+      // Fetch users count
+      const usersResponse = await axios.get(`${API_BASE_URL}/users/all`, config)
+      setStats(prev => ({ ...prev, users: usersResponse.data.total }))
     } catch (error) {
       console.error('Error fetching stats:', error)
     } finally {
@@ -150,6 +155,22 @@ const AdminDashboard = () => {
               </div>
               <div className="bg-light rounded-circle p-2 p-lg-3">
                 <i className="fas fa-shopping-cart fa-lg fa-2x text-warning"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12 col-sm-6 col-lg-3 mb-3 mb-lg-4">
+          <div className="card border-0 shadow-sm h-100" style={{borderRadius: '15px', backgroundColor: '#ffffff', color: '#495057'}}>
+            <div className="card-body p-3">
+              <div className="d-flex align-items-center">
+                <div className="flex-grow-1">
+                  <div className="text-muted small mb-1">Users</div>
+                  <div className="h4 mb-0 fw-bold">{stats.users}</div>
+                </div>
+                <div className="bg-light rounded-circle p-2 p-lg-3">
+                  <i className="fas fa-users fa-lg fa-2x text-secondary"></i>
+                </div>
               </div>
             </div>
           </div>

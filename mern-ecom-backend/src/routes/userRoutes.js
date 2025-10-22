@@ -120,6 +120,35 @@ router.get('/customers', authenticate, authorize('admin'), asyncHandler(async (r
   });
 }));
 
+// Get all users (admin only) - includes both customers and admins
+router.get('/all', authenticate, authorize('admin'), asyncHandler(async (req, res) => {
+  const { page = 1, limit = 10, search, role } = req.query;
+
+  let query = {};
+  if (role) query.role = role;
+  if (search) {
+    query.$or = [
+      { name: { $regex: search, $options: 'i' } },
+      { email: { $regex: search, $options: 'i' } }
+    ];
+  }
+
+  const users = await User.find(query)
+    .select('-password')
+    .sort({ createdAt: -1 })
+    .limit(limit * 1)
+    .skip((page - 1) * limit);
+
+  const total = await User.countDocuments(query);
+
+  res.json({
+    users,
+    totalPages: Math.ceil(total / limit),
+    currentPage: page,
+    total
+  });
+}));
+
 // Get customer by ID (admin only)
 router.get('/customers/:id', authenticate, authorize('admin'), asyncHandler(async (req, res) => {
   const customer = await User.findOne({ _id: req.params.id, role: 'customer' }).select('-password');
